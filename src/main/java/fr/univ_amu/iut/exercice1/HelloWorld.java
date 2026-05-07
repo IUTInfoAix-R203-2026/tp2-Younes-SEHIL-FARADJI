@@ -24,10 +24,12 @@ public class HelloWorld {
    *     <nom>!"} sinon
    */
   public static String saluer(String nom) {
-    // TODO exercice 1 : gérer le cas où nom est renseigné (sinon on retourne
-    // "Hello, World!" par défaut, ce qui suffit pour les deux premiers tests).
-    // Activez les tests un par un. Fake it d'abord, triangulez quand un
-    // deuxième test vous y force.
-    return "Hello, World!";
+    // Si le nom est null ou vide, on retourne la version générique
+    if (nom == null || nom.isEmpty()) {
+      return "Hello, World!";
+    }
+
+    // Sinon (Triangulation), on utilise le nom fourni
+    return "Hello, " + nom + "!";
   }
 }
