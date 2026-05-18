@@ -47,6 +47,44 @@ public class ConvertisseurDeNombreRomain {
     //
     // Pour les exceptions : une soustraction est valide seulement pour
     // I avant V/X, X avant L/C, C avant D/M. Tout le reste est invalide.
+    for (int i = 0; i < chiffreRomain.length(); i++) {
+      int courant = valeurDe(chiffreRomain.charAt(i));
+
+      if (i + 1 < chiffreRomain.length() && courant < valeurDe(chiffreRomain.charAt(i + 1))) {
+        verifierSoustractionValide(chiffreRomain.charAt(i), chiffreRomain.charAt(i + 1));
+        total -= courant;
+      } else {
+        total += courant;
+      }
+    }
     return total;
+  }
+
+  private void verifierSoustractionValide(char actuel, char suivant) {
+    boolean valide =
+        switch (actuel) {
+          case 'I' -> (suivant == 'V' || suivant == 'X');
+          case 'X' -> (suivant == 'L' || suivant == 'C');
+          case 'C' -> (suivant == 'D' || suivant == 'M');
+          default -> false;
+        };
+
+    if (!valide) {
+      throw new IllegalArgumentException(
+          "Soustraction interdite : " + actuel + " devant " + suivant);
+    }
+  }
+
+  private int valeurDe(char c) {
+    return switch (c) {
+      case 'I' -> 1;
+      case 'V' -> 5;
+      case 'X' -> 10;
+      case 'L' -> 50;
+      case 'C' -> 100;
+      case 'D' -> 500;
+      case 'M' -> 1000;
+      default -> throw new IllegalArgumentException("Symbole inconnu : " + c);
+    };
   }
 }
